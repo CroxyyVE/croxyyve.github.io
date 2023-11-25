@@ -27,7 +27,6 @@
         <div class="container">
             <h2>Welcome to Croxyy's YouTube Channel</h2>
             <p>Explore the world of marketable accessories and stay tuned for exciting videos!</p>
-            <!-- Add more content as needed -->
         </div>
     </section>
 
@@ -42,8 +41,7 @@
     <section id="videos">
         <div class="container">
             <h2>Latest Videos</h2>
-            <div id="video-list"></div>
-            <!-- JavaScript will populate this with YouTube video data -->
+            <div id="video-list" class="video-list"></div>
         </div>
     </section>
 
