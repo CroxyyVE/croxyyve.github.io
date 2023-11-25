@@ -1,74 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    #Croxyy's Toy Market#
+    <title>Croxyy - YouTube Channel</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
 
+<body>
     <header>
-        <h1>Croxyy's Toy Market</h1>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#products">Products</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+        <div class="container">
+            <h1>Croxyy</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#videos">Videos</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <section id="home">
-        <div class="hero">
-            <h2>Welcome to Croxyy's Toy Market!</h2>
-            <p>Explore a world of marketable toys and accessories inspired by war. Subscribe to <a href="https://www.youtube.com/@croxyy_" target="_blank">Croxyy's YouTube channel</a> for exciting content!</p>
+        <div class="container">
+            <h2>Welcome to Croxyy's YouTube Channel</h2>
+            <p>Explore the world of marketable accessories and stay tuned for exciting videos!</p>
+            <!-- Add more content as needed -->
         </div>
     </section>
 
     <section id="products">
-        <h2>Upcoming Products</h2>
-        <div class="product-list">
-            <!-- Add your product information here -->
-            <!-- Example:
-            <div class="product">
-                <img src="product1.jpg" alt="Product 1">
-                <h3>Product 1</h3>
-                <p>Description of Product 1.</p>
-            </div>
-            -->
+        <div class="container">
+            <h2>Featured Products</h2>
+            <p>Discover our exclusive line of marketable accessories.</p>
+            <!-- Add product details and images -->
         </div>
     </section>
 
-    <section id="about">
-        <h2>About Croxyy's Toy Market</h2>
-        <p>Discover the passion for marketable toys and accessories inspired by the theme of war. Croxyy's Toy Market is dedicated to providing unique and high-quality products that cater to enthusiasts of all ages.</p>
+    <section id="videos">
+        <div class="container">
+            <h2>Latest Videos</h2>
+            <div id="video-list"></div>
+            <!-- JavaScript will populate this with YouTube video data -->
+        </div>
     </section>
 
     <section id="contact">
-        <h2>Contact Us</h2>
-        <p>Have questions or inquiries? Feel free to reach out to us:</p>
-        <form>
-            <!-- Add your contact form fields here -->
-            <!-- Example:
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <input type="submit" value="Submit">
-            -->
-        </form>
+        <div class="container">
+            <h2>Contact Us</h2>
+            <!-- Add a contact form or any other contact information -->
+        </div>
     </section>
 
     <footer>
-        <p>&copy; 2023 Croxyy's Toy Market. All rights reserved.</p>
+        <div class="container">
+            <p>&copy; 2023 Croxyy. All Rights Reserved.</p>
+        </div>
     </footer>
 
+    <script src="https://apis.google.com/js/api.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
 body {
     font-family: 'Arial', sans-serif;
@@ -76,11 +71,16 @@ body {
     padding: 0;
 }
 
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 header {
     background-color: #333;
     color: #fff;
-    padding: 10px;
-    text-align: center;
+    padding: 10px 0;
 }
 
 nav ul {
@@ -89,83 +89,65 @@ nav ul {
     padding: 0;
 }
 
-nav li {
+nav ul li {
     display: inline;
     margin-right: 20px;
 }
 
-a {
-    color: #fff;
+nav a {
     text-decoration: none;
+    color: #fff;
+    font-weight: bold;
 }
 
 section {
-    padding: 40px;
+    margin: 40px 0;
 }
 
-.hero {
-    text-align: center;
-}
-
-.product-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-
-.product {
-    width: 300px;
-    margin: 20px;
+h2 {
+    color: #333;
 }
 
 footer {
     background-color: #333;
     color: #fff;
+    padding: 10px 0;
     text-align: center;
-    padding: 10px;
 }
-// Wait for the document to be ready
-document.addEventListener("DOMContentLoaded", function() {
-    // Get all elements with the class 'popup'
-    var popups = document.querySelectorAll('.popup');
+// Load the YouTube API
+gapi.load('client', init);
 
-    // Function to check if an element is in the viewport
-    function isInViewport(element) {
-        var rect = element.getBoundingClientRect();
-        return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-    }
-
-    // Function to animate pop-ups
-    function animatePopups() {
-        popups.forEach(function(popup) {
-            if (isInViewport(popup)) {
-                popup.classList.add('popup-visible');
-            }
+function init() {
+    // Initialize the client with API key
+    gapi.client.init({
+        'apiKey': 'YOUR_YOUTUBE_API_KEY',
+    }).then(function () {
+        // Call the YouTube Data API to fetch the latest videos
+        return gapi.client.request({
+            'path': 'https://www.googleapis.com/youtube/v3/playlistItems',
+            'params': {
+                'part': 'snippet',
+                'maxResults': 5,
+                'playlistId': 'YOUR_PLAYLIST_ID',
+            },
         });
-    }
+    }).then(function (response) {
+        // Handle the response and display video thumbnails and titles
+        const videosContainer = document.getElementById('video-list');
+        response.result.items.forEach(function (item) {
+            const videoTitle = item.snippet.title;
+            const videoId = item.snippet.resourceId.videoId;
+            const thumbnailUrl = item.snippet.thumbnails.default.url;
 
-    // Add scroll event listener
-    window.addEventListener('scroll', animatePopups);
+            const videoElement = document.createElement('div');
+            videoElement.innerHTML = `
+                <div>
+                    <img src="${thumbnailUrl}" alt="${videoTitle}">
+                    <p>${videoTitle}</p>
+                </div>
+            `;
 
-    // Initial check for pop-ups on page load
-    animatePopups();
-});
-<!-- Add this class to elements you want to animate -->
-<div class="popup">
-    <!-- Popup content goes here -->
-</div>
-.popup {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.5s, transform 0.5s;
-}
-
-.popup-visible {
-    opacity: 1;
-    transform: translateY(0);
+            videosContainer.appendChild(videoElement);
+        });
+    });
 }
